@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playwright Test Site</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    form { margin-bottom: 20px; }
+    button { padding: 5px 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Playwright Test Site</h1>
+  
+  <form id="data-form">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="submit">Submit</button>
+  </form>
+  
+  <h2>Submitted Data:</h2>
+  <ul id="data-list"></ul>
+
+  <script>
+    const form = document.getElementById('data-form');
+
+
+    const dataList = document.getElementById('data-list');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      
+      const name = document.getElementById('name').value;
+
+      const response = await fetch('/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name }),
+      });
+
+      const result = await response.json();
+
+      const listItem = document.createElement('li');
+
+
+      listItem.textContent = result.message;
+      dataList.appendChild(listItem);
+    });
+  </script>
+</body>
+</html>
